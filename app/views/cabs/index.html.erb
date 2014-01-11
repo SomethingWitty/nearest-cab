@@ -1,5 +1,43 @@
-<% @cabs.each do |cab| %>
-
-<p> <%= cab.id %> </p>
-
-<% end %>
+<!DOCTYPE html>
+<html>
+  <head>
+	    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+			<style type="text/css">
+			 html { height: 100% }
+			 body { height: 100%; margin: 0; padding: 0 }
+				#map-canvas { height: 100% }
+			</style>
+			<script type="text/javascript"
+				src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDz9ediSOGCVAArhCyqCY01Dt_s20uxIB0&sensor=false">
+	    </script>
+	    <script type="text/javascript">
+				var lat = <%= @latitude %>;
+				var longitude = <%= @longitude %>;
+				var cabs =  new Array();
+				var count = 0;
+				<% @cabs.each do |cab| %>
+					var cab = new Array();
+					cab[0] = <%= cab.latitude %>;
+					cab[1] = <%= cab.longitude %>;
+					cabs[count] = cab;
+				  count = count + 1;	
+				<% end %>
+				function initialize() {
+					var mapOptions = {
+			  	center: new google.maps.LatLng( lat, longitude ),
+			  	zoom: 8
+					};
+			  	var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+					for (var i = 0; i<cabs.length; i++)
+					{
+						var latLng = new google.maps.LatLng(cabs[i][0], cabs[i][1]);
+						var marker = new google.maps.Marker({position: latLng, map: map, title: 'Hello World!'});
+					}
+				}
+				google.maps.event.addDomListener(window, 'load', initialize);
+		</script>
+	</head>
+	<body>
+		<div id="map-canvas"/>
+	</body>
+</html>

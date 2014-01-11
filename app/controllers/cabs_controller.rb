@@ -1,12 +1,16 @@
 class CabsController < ApplicationController
 	before_filter :check_lat_long, :only => [:create, :update]
+	EARTH_RADIUS_MI = 3959
   def index
 		params.require(:latitude)
 		params.require(:longitude)
 		params.permit(:limit, :radius)
 		@latitude = params[:latitude].to_f
 		@longitude = params[:longitude].to_f
-		@cabs = Cab.all
+
+		radius = params[:radius]? params[:radius] : EARTH_RADIUS_MI #either use the passed in radius or else use the earth's radius to grab everything
+		limit = params[:limit]? params[:limit] : Cab.all.length #either use the passed in limit or else return all of the taxis in the db
+		@cabs = Cab.where("(? * acos( cos( radians(?) ) * cos( radians(latitude)) * cos(radians(longitude) - radians(?) ) + sin( radians(?) ) * sin( radians( latitude ) ) ) ) < ", EARTH_RADIUS_MI, @latitude, @longitude, @latitude, radius)
   end
 	def create
 		Cab.create(:latitude => params[:latitude], :longitude => params[:longitude])

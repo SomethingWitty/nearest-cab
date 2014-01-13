@@ -10,6 +10,8 @@ Update: when an id is provided, only one of latitude or longitude need be provid
 
 Destroy: 404 is returned if you try to delete an unfound cab
 
+To launch the app, cd into the directory and type "rails s" and then curl/hit with browser localhost:3000
+
 
 
 

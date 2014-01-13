@@ -11,7 +11,7 @@ class CabsController < ApplicationController
 		limit = params[:limit]? params[:limit] : Cab.all.length #either use the passed in limit or else return all of the taxis in the db
 		@cabs = Cab.where("(? * acos( cos( radians(?) ) * cos( radians(latitude)) * cos(radians(longitude) - radians(?) ) + sin( radians(?) ) * sin( radians( latitude ) ) ) ) < ?", EARTH_RADIUS_MI, @latitude, @longitude, @latitude, radius).limit(limit)
 
-		#render :status => 200, :json => @cabs.to_json -> to render json, uncomment this line, otherwise it will display the results on google maps
+		#render :status => 200, :json => @cabs.to_json #-> to render json, uncomment this line, otherwise it will display the results on google maps
   end
 	def create
 		params.require(:latitude)
@@ -24,7 +24,7 @@ class CabsController < ApplicationController
 		cab = Cab.find(params[:id])
 		latitude = params[:latitude]? params[:latitude] : cab.latitude
 		longitude = params[:longitude]? params[:longitude] : cab.longitude
-		cab.update_attributes(:latitude => latitude, :longitude => longitude)
+		cab.update_attributes!(:latitude => latitude, :longitude => longitude)
 		head :status => 200
 	end
 	def destroy

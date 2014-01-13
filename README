@@ -4,7 +4,7 @@ Tweaked the specs to add the additional flexibility
 
 Create: latitude/longitude must be specified.  No id should be provided.  A 400 will be thrown if latitude or longitude is missing in the params
 
-Read: the radius and limit parameters are optional.  If no radius is provided, then all relevant cabs will be returned.  If no limit is provided, then all relevant cabs will be returned.  Distance was calculated based on miles.
+Read: the radius and limit parameters are optional.  If no radius is provided, then all relevant cabs will be returned.  If no limit is provided, then all relevant cabs will be returned.  Distance was calculated based on miles.  This endpoint was made to be hit on your browser so there's google maps integration to show where the cabs are.  If this should be a strict API endpoint then you just need to uncomment a line.  
 
 Update: when an id is provided, only one of latitude or longitude need be provided.  If a latitude or longitude is not provided, it will use the existing latitude/longitude and update only the specified latitude/longitude.  If both are specified, then both latitude and longitude will be updated
 
